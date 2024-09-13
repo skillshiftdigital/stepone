@@ -42,16 +42,21 @@ const GridProductWidget = () => {
         "images": ["https://cdn.shopify.com/s/files/1/1853/5335/files/ECOMM-08copy_e7010446-533d-4889-a397-65c269932bfb.jpg?v=1717504666"]
       }
     ];
-    setProducts(fetchedProducts as any);
+    setProducts(fetchedProducts as never);
   }, []);
 
   return (
     <div className="max-w-4xl mx-auto p-4">
       <h2 className="text-2xl font-bold mb-4">Recommended for You</h2>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        {products.map((product: any) => (
+        {products.map((product: {
+          id: number
+          title: string
+          images: string[]
+          product_type: string
+        }) => (
           <div key={product.id} className="bg-white rounded-lg shadow-md overflow-hidden">
-            <img src={product.images[0]} alt={product.title} className="w-full h-48 object-cover" />
+            <Image src={product.images[0]} alt={product.title} className="w-full h-48 object-cover" />
             <div className="p-4">
               <h3 className="text-sm font-semibold mb-2 truncate">{product.title}</h3>
               <p className="text-xs text-gray-600 mb-2">{product.product_type}</p>
@@ -60,8 +65,7 @@ const GridProductWidget = () => {
               </button>
             </div>
           </div>
-        ))}
-      </div>
+        ))}      </div>
     </div>
   );
 };
@@ -124,10 +128,9 @@ const CarouselQuickViewWidget = () => {
               key={product.id}
               className={`w-full flex-shrink-0 transition-transform duration-300 ease-in-out ${
                 index === currentIndex ? 'translate-x-0' : 'translate-x-full'
-              }`}
-              style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+              } product-slide`}
             >
-              <img src={product.images[0]} alt={product.title} className="w-full h-64 object-cover" />
+              <Image src={product.images[0]} alt={product.title} className="w-full h-64 object-cover" />
               <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white p-4">
                 <h3 className="text-lg font-semibold mb-2">{product.title}</h3>
                 <button
@@ -138,8 +141,7 @@ const CarouselQuickViewWidget = () => {
                 </button>
               </div>
             </div>
-          ))}
-        </div>
+          ))}        </div>
         <button
           onClick={prevProduct}
           className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white rounded-full p-2 shadow-md"
@@ -159,7 +161,7 @@ const CarouselQuickViewWidget = () => {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-lg max-w-lg w-full p-6">
             <h3 className="text-xl font-semibold mb-4">{quickViewProduct.title}</h3>
-            <img src={quickViewProduct.images[0]} alt={quickViewProduct.title} className="w-full h-64 object-cover mb-4" />
+            <Image src={quickViewProduct.images[0]} alt={quickViewProduct.title} className="w-full h-64 object-cover mb-4" />
             <p className="text-gray-600 mb-4">{quickViewProduct.product_type}</p>
             <div className="flex justify-between">
               <button className={`${buttonClasses} py-2 px-4 rounded transition duration-200`}>
@@ -215,10 +217,10 @@ const HorizontalScrollWidget = () => {
         "images": ["https://cdn.shopify.com/s/files/1/1853/5335/files/ECOMM-08copy_e7010446-533d-4889-a397-65c269932bfb.jpg?v=1717504666"]
       }
     ];
-    setProducts(fetchedProducts as any);
+    setProducts(fetchedProducts as never);
   }, []);
 
-  const toggleWishlist = (productId: any) => {
+  const toggleWishlist = (productId: number) => {
     setWishlist((prevWishlist: number[]) =>
       prevWishlist.includes(productId)
         ? prevWishlist.filter((id) => id !== productId)
@@ -239,7 +241,7 @@ const HorizontalScrollWidget = () => {
           <div key={product.id} className="flex-none w-64 mx-2">
             <div className="bg-white rounded-lg shadow-md overflow-hidden">
               <div className="relative">
-                <img src={product.images[0]} alt={product.title} className="w-full h-48 object-cover" />
+                <Image src={product.images[0]} alt={product.title} className="w-full h-48 object-cover" />
                 <button
                   onClick={() => toggleWishlist(product.id)}
                   className="absolute top-2 right-2 bg-white rounded-full p-2 shadow-md"
