@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react';
 import { GridProductWidget, CarouselQuickViewWidget, HorizontalScrollWidget, RecommendedProductsWidget } from './components';
 
